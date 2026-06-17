@@ -155,6 +155,13 @@
   }
   .req-header b{color:var(--amber); letter-spacing:1px;}
   .req-text{color:rgba(244,246,243,0.85); font-family:'IBM Plex Sans', sans-serif; font-size:13.5px;}
+  .flow-wrap{
+    border:1px solid var(--border);
+    border-top:none;
+    border-bottom:none;
+    padding:18px 18px 4px;
+    background:#fff;
+  }
   .cards{
     display:grid;
     grid-template-columns:repeat(2, 1fr);
@@ -233,8 +240,6 @@
     letter-spacing:0.5px;
   }
 
-  .diagram-section{margin-bottom:32px;}
-  .diagram-section:last-child{margin-bottom:0;}
   .diagram-label{
     font-family:'IBM Plex Mono', monospace;
     font-size:11px;
@@ -244,7 +249,7 @@
     margin:0 0 12px;
   }
   .diagram-scroll{overflow-x:auto; padding-bottom:6px;}
-  .diagram-scroll svg{display:block; min-width:760px;}
+  .diagram-scroll svg{display:block;}
 </style>
 </head>
 <body>
@@ -255,105 +260,6 @@
 </div>
 
 <main>
-
-  <div class="panel">
-    <div class="panel-tab">00 — Process Map</div>
-    <div class="panel-body">
-
-      <div class="diagram-section">
-        <p class="diagram-label">Where Traceline fits in the BA → QA handoff</p>
-        <div class="diagram-scroll">
-          <svg viewBox="0 0 980 130" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <marker id="arrowBiz" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" style="fill:var(--graphite);"/>
-              </marker>
-            </defs>
-
-            <rect x="15" y="20" width="150" height="80" rx="6" style="fill:#fff; stroke:var(--border); stroke-width:1.5;"/>
-            <text x="90" y="48" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">Requirement</text>
-            <text x="90" y="63" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">captured</text>
-            <text x="90" y="84" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:var(--graphite); letter-spacing:0.5px;">CLIENT / STAKEHOLDER</text>
-
-            <path d="M165,60 L215,60" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowBiz)"/>
-
-            <rect x="215" y="20" width="150" height="80" rx="6" style="fill:#fff; stroke:var(--border); stroke-width:1.5;"/>
-            <text x="290" y="48" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">BA reviews &amp;</text>
-            <text x="290" y="63" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">preps input</text>
-            <text x="290" y="84" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:var(--graphite); letter-spacing:0.5px;">MANUAL JUDGMENT</text>
-
-            <path d="M365,60 L415,60" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowBiz)"/>
-
-            <rect x="415" y="20" width="150" height="80" rx="6" style="fill:#FBF1E2; stroke:var(--amber); stroke-width:2; stroke-dasharray:4 3;"/>
-            <text x="490" y="48" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--amber-deep);">Traceline auto-</text>
-            <text x="490" y="63" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--amber-deep);">drafts test cases</text>
-            <text x="490" y="84" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:var(--amber-deep); letter-spacing:0.5px;">AUTOMATED STEP</text>
-
-            <path d="M565,60 L615,60" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowBiz)"/>
-
-            <rect x="615" y="20" width="150" height="80" rx="6" style="fill:#fff; stroke:var(--border); stroke-width:1.5;"/>
-            <text x="690" y="48" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">BA validates &amp;</text>
-            <text x="690" y="63" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">exports</text>
-            <text x="690" y="84" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:var(--graphite); letter-spacing:0.5px;">MANUAL JUDGMENT</text>
-
-            <path d="M765,60 L815,60" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowBiz)"/>
-
-            <rect x="815" y="20" width="150" height="80" rx="6" style="fill:#fff; stroke:var(--teal); stroke-width:1.5;"/>
-            <text x="890" y="48" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--teal);">QA executes &amp;</text>
-            <text x="890" y="63" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--teal);">signs off</text>
-            <text x="890" y="84" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:var(--graphite); letter-spacing:0.5px;">QA TEAM</text>
-          </svg>
-        </div>
-      </div>
-
-      <div class="diagram-section">
-        <p class="diagram-label">What happens inside Traceline (the automated step)</p>
-        <div class="diagram-scroll">
-          <svg viewBox="0 0 980 110" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <marker id="arrowTech" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" style="fill:var(--graphite);"/>
-              </marker>
-            </defs>
-
-            <rect x="15" y="15" width="150" height="65" rx="6" style="fill:var(--paper); stroke:var(--border); stroke-width:1.5;"/>
-            <text x="90" y="42" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">Paste</text>
-            <text x="90" y="57" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">requirement</text>
-            <text x="90" y="73" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:8.5px; fill:var(--graphite); letter-spacing:0.3px;">FREE TEXT</text>
-
-            <path d="M165,47 L215,47" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowTech)"/>
-
-            <rect x="215" y="15" width="150" height="65" rx="6" style="fill:var(--paper); stroke:var(--border); stroke-width:1.5;"/>
-            <text x="290" y="42" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">Split into</text>
-            <text x="290" y="57" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">statements</text>
-            <text x="290" y="73" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:8.5px; fill:var(--graphite); letter-spacing:0.3px;">SENTENCE PARSER</text>
-
-            <path d="M365,47 L415,47" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowTech)"/>
-
-            <rect x="415" y="15" width="150" height="65" rx="6" style="fill:var(--paper); stroke:var(--border); stroke-width:1.5;"/>
-            <text x="490" y="42" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">Classify by</text>
-            <text x="490" y="57" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">keyword rules</text>
-            <text x="490" y="73" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:8.5px; fill:var(--graphite); letter-spacing:0.3px;">PRIORITY / BOUNDARY / SECURITY</text>
-
-            <path d="M565,47 L615,47" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowTech)"/>
-
-            <rect x="615" y="15" width="150" height="65" rx="6" style="fill:var(--paper); stroke:var(--border); stroke-width:1.5;"/>
-            <text x="690" y="42" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">Generate</text>
-            <text x="690" y="57" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">test cases</text>
-            <text x="690" y="73" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:8.5px; fill:var(--graphite); letter-spacing:0.3px;">POS / NEG / BOUNDARY / SEC</text>
-
-            <path d="M765,47 L815,47" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowTech)"/>
-
-            <rect x="815" y="15" width="150" height="65" rx="6" style="fill:var(--paper); stroke:var(--border); stroke-width:1.5;"/>
-            <text x="890" y="42" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">Export</text>
-            <text x="890" y="57" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12px; font-weight:600; fill:var(--ink);">CSV</text>
-            <text x="890" y="73" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:8.5px; fill:var(--graphite); letter-spacing:0.3px;">JIRA / AZURE DEVOPS</text>
-          </svg>
-        </div>
-      </div>
-
-    </div>
-  </div>
 
   <div class="panel">
     <div class="panel-tab">01 — Intake</div>
@@ -518,6 +424,10 @@ function runEngine(){
     block.className = 'req-block';
     block.innerHTML = `
       <div class="req-header"><b>${reqId}</b><span class="req-text">${escapeHtml(req)}</span></div>
+      <div class="flow-wrap">
+        <p class="diagram-label" style="margin:0 0 10px;">Decision flow</p>
+        ${buildFlowchart(reqId, req, cases)}
+      </div>
       <div class="cards">${cases.map(renderCard).join('')}</div>
     `;
     ledger.appendChild(block);
@@ -526,6 +436,92 @@ function runEngine(){
   renderSummary();
   document.getElementById('exportBtn').style.display = allCases.length ? 'inline-block' : 'none';
   document.getElementById('aiPanel').style.display = allCases.length ? 'block' : 'none';
+}
+
+function flowDefs(){
+  return `<defs><marker id="arrowFlow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--graphite);"/></marker></defs>`;
+}
+
+function flowPill(x,y,w,h,label,strokeColor,tagId){
+  const cx=x+w/2, cy=y+h/2;
+  const tag = tagId ? `<text x="${cx}" y="${y+h+15}" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:${strokeColor}; letter-spacing:0.5px;">→ ${tagId}</text>` : '';
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h/2}" style="fill:#fff; stroke:${strokeColor}; stroke-width:1.8;"/>
+    <text x="${cx}" y="${cy+4}" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:12.5px; font-weight:600; fill:${strokeColor};">${label}</text>
+    ${tag}`;
+}
+
+function flowBox(x,y,w,h,line1,line2){
+  const cx=x+w/2, cy=y+h/2;
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="fill:#fff; stroke:var(--ink); stroke-width:1.5;"/>
+    <text x="${cx}" y="${cy-2}" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:11.5px; font-weight:600; fill:var(--ink);">${line1}</text>
+    <text x="${cx}" y="${cy+13}" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:var(--graphite);">${escapeHtml(line2)}</text>`;
+}
+
+function flowDiamond(cx,cy,halfW,h,lines){
+  const pts = `${cx},${cy-h/2} ${cx+halfW},${cy} ${cx},${cy+h/2} ${cx-halfW},${cy}`;
+  return `<polygon points="${pts}" style="fill:#fff; stroke:var(--ink); stroke-width:1.6;"/>
+    <text x="${cx}" y="${cy-4}" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:11px; font-weight:600; fill:var(--ink);">${lines[0]}</text>
+    <text x="${cx}" y="${cy+11}" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:11px; font-weight:600; fill:var(--ink);">${lines[1]}</text>`;
+}
+
+function flowArrow(x,y1,y2,label){
+  const lbl = label ? `<text x="${x+9}" y="${(y1+y2)/2+4}" style="font-family:'IBM Plex Mono'; font-size:9px; fill:var(--teal);">${label}</text>` : '';
+  return `<path d="M${x},${y1} L${x},${y2}" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowFlow)"/>${lbl}`;
+}
+
+function flowElbow(x1,y,x2,y2,label,color){
+  return `<path d="M${x1},${y} L${x2},${y2}" style="stroke:var(--graphite); stroke-width:1.5; fill:none;" marker-end="url(#arrowFlow)"/>
+    <text x="${(x1+x2)/2}" y="${y-9}" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:${color};">${label}</text>`;
+}
+
+function flowOutcome(x,y,w,h,label,tcId,color){
+  const cx=x+w/2, cy=y+h/2;
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="fill:#fff; stroke:${color}; stroke-width:1.8; stroke-dasharray:4 3;"/>
+    <text x="${cx}" y="${cy-2}" text-anchor="middle" style="font-family:'IBM Plex Sans'; font-size:11.5px; font-weight:600; fill:${color};">${label}</text>
+    <text x="${cx}" y="${cy+14}" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:9px; fill:${color}; letter-spacing:0.5px;">→ ${tcId}</text>`;
+}
+
+function buildFlowchart(reqId, reqText, cases){
+  const byType = {};
+  cases.forEach(c=> byType[c.type]=c);
+
+  const decisions = [];
+  if(byType['Negative']) decisions.push({lines:['Valid & complete','input provided?'], noLabel:'Rejected — error shown', tc:byType['Negative'], color:'var(--rust)'});
+  if(byType['Boundary']) decisions.push({lines:['Within stated','limit?'], noLabel:'Boundary case triggered', tc:byType['Boundary'], color:'var(--violet)'});
+  if(byType['Security']) decisions.push({lines:['Authorized with','valid credentials?'], noLabel:'Access denied / locked', tc:byType['Security'], color:'#8F560F'});
+  const positive = byType['Positive'];
+
+  const trunkX = 130, boxW = 220, boxX = trunkX - boxW/2;
+  const branchX = 330, branchW = 230;
+  const totalWidth = 600;
+  let y = 18;
+  let body = '';
+
+  body += flowPill(boxX, y, boxW, 34, 'Start', 'var(--ink)', '');
+  y += 34;
+  body += flowArrow(trunkX, y, y+24);
+  y += 24;
+
+  body += flowBox(boxX, y, boxW, 50, 'Trigger the requirement', truncate(reqText,36));
+  y += 50;
+  body += flowArrow(trunkX, y, y+24);
+  y += 24;
+
+  decisions.forEach(d=>{
+    const dH = 76;
+    const dCenterY = y + dH/2;
+    body += flowDiamond(trunkX, dCenterY, 75, dH, d.lines);
+    body += flowElbow(trunkX+75, dCenterY, branchX, dCenterY, 'No', d.color);
+    body += flowOutcome(branchX, dCenterY-27, branchW, 54, d.noLabel, d.tc.id, d.color);
+    y += dH;
+    body += flowArrow(trunkX, y, y+24, 'Yes');
+    y += 24;
+  });
+
+  body += flowPill(boxX, y, boxW, 46, 'Requirement fulfilled ✓', 'var(--teal)', positive ? positive.id : '');
+  y += 46 + 22;
+
+  return `<div class="diagram-scroll"><svg viewBox="0 0 ${totalWidth} ${y}" xmlns="http://www.w3.org/2000/svg" style="min-width:${totalWidth}px;">${flowDefs()}${body}</svg></div>`;
 }
 
 function renderCard(tc){
