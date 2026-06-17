@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traceline — Requirement to Test Case Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#11192B;
+    --ink-soft:#1C2740;
+    --paper:#F4F6F3;
+    --paper-line: rgba(17,25,43,0.10);
+    --graphite:#3A4356;
+    --amber:#C97A1F;
+    --amber-deep:#8F560F;
+    --teal:#1F7A6C;
+    --rust:#B5482F;
+    --violet:#6E5BA6;
+    --border: rgba(17,25,43,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .topbar{
+    background:var(--ink);
+    color:var(--paper);
+    padding:22px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:8px;
+    border-bottom:4px solid var(--amber);
+  }
+  .brand{
+    font-family:'IBM Plex Serif', serif;
+    font-weight:600;
+    font-size:26px;
+    letter-spacing:0.5px;
+  }
+  .brand span{color:var(--amber);}
+  .tagline{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:rgba(244,246,243,0.65);
+  }
+  main{
+    max-width:1040px;
+    margin:0 auto;
+    padding:36px 24px 80px;
+  }
+  .panel{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:2px;
+    margin-bottom:32px;
+    position:relative;
+  }
+  .panel-tab{
+    position:absolute;
+    top:-14px;
+    left:24px;
+    background:var(--amber);
+    color:var(--ink);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    padding:5px 14px;
+    border-radius:2px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.15);
+  }
+  .panel-body{padding:34px 28px 28px;}
+  .field-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--graphite);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:10px;
+    display:block;
+  }
+  textarea{
+    width:100%;
+    min-height:180px;
+    border:1px solid var(--border);
+    border-radius:2px;
+    padding:14px 16px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15px;
+    line-height:28px;
+    color:var(--ink);
+    background-image:repeating-linear-gradient(white 0 27px, var(--paper-line) 27px 28px);
+    resize:vertical;
+    outline:none;
+  }
+  textarea:focus{border-color:var(--ink);}
+  .row{display:flex; gap:12px; margin-top:16px; flex-wrap:wrap; align-items:center;}
+  button{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    border-radius:2px;
+    cursor:pointer;
+    padding:11px 20px;
+    border:1px solid var(--ink);
+    transition:transform 0.08s ease;
+  }
+  button:active{transform:translateY(1px);}
+  .btn-primary{background:var(--ink); color:var(--paper);}
+  .btn-primary:hover{background:var(--ink-soft);}
+  .btn-ghost{background:transparent; color:var(--ink); border-color:var(--border);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .hint{font-size:13px; color:var(--graphite); margin-top:14px; line-height:1.5;}
+
+  .summary{
+    display:none;
+    padding:22px 28px;
+    border:1px solid var(--border);
+    background:#fff;
+    margin-bottom:28px;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .summary-counts{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--graphite);}
+  .summary-counts b{color:var(--ink); font-size:16px;}
+  .coverage-bar{display:flex; height:10px; width:260px; border-radius:2px; overflow:hidden; border:1px solid var(--border);}
+  .coverage-bar div{height:100%;}
+  .legend{display:flex; gap:14px; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--graphite); flex-wrap:wrap;}
+  .legend i{display:inline-block; width:9px; height:9px; margin-right:5px; border-radius:50%; vertical-align:middle;}
+
+  .req-block{margin-bottom:30px;}
+  .req-header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:12px 18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    border-radius:2px 2px 0 0;
+    display:flex;
+    gap:10px;
+    align-items:baseline;
+  }
+  .req-header b{color:var(--amber); letter-spacing:1px;}
+  .req-text{color:rgba(244,246,243,0.85); font-family:'IBM Plex Sans', sans-serif; font-size:13.5px;}
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+    border:1px solid var(--border);
+    border-top:none;
+    padding:18px;
+    background:#fff;
+  }
+  @media (max-width: 720px){ .cards{grid-template-columns:1fr;} }
+
+  .card{
+    border:1px solid var(--border);
+    padding:18px 18px 16px;
+    position:relative;
+    background:var(--paper);
+  }
+  .stamp{
+    position:absolute;
+    top:-12px;
+    right:-10px;
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    border:2px dashed currentColor;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    transform:rotate(-9deg);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    line-height:1.2;
+    background:var(--paper);
+  }
+  .type-positive{color:var(--teal);}
+  .type-negative{color:var(--rust);}
+  .type-boundary{color:var(--violet);}
+  .type-security{color:var(--amber-deep);}
+
+  .card-title{font-size:14.5px; font-weight:600; margin:6px 30px 10px 0; line-height:1.4;}
+  .meta-row{display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;}
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:2px;
+    border:1px solid currentColor;
+  }
+  .card-section{font-size:13px; margin-bottom:8px; color:var(--graphite); line-height:1.55;}
+  .card-section b{color:var(--ink); font-weight:600; display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; font-family:'IBM Plex Mono', monospace; margin-bottom:3px;}
+  .card-section ol{margin:0; padding-left:18px;}
+
+  .ai-panel{margin-top:8px;}
+  .ai-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  input[type=password]{
+    flex:1; min-width:220px;
+    padding:11px 14px;
+    border:1px solid var(--border);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    border-radius:2px;
+  }
+  .ai-status{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--graphite); margin-top:10px; min-height:16px;}
+
+  footer{
+    text-align:center;
+    padding:30px 0 50px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--graphite);
+    letter-spacing:0.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">TRACE<span>LINE</span></div>
+  <div class="tagline">Requirement → Test Case Engine</div>
+</div>
+
+<main>
+
+  <div class="panel">
+    <div class="panel-tab">01 — Intake</div>
+    <div class="panel-body">
+      <label class="field-label">Paste requirement text (BRD / FRD / user story / acceptance criteria)</label>
+      <textarea id="reqInput" placeholder="e.g. The system shall allow a registered user to reset their password via a one-time OTP sent to their registered mobile number within 5 minutes. Maximum 3 OTP attempts allowed within 10 minutes. The password must be between 8 to 16 characters."></textarea>
+      <div class="row">
+        <button class="btn-primary" onclick="runEngine()">Generate test cases</button>
+        <button class="btn-ghost" onclick="loadSample()">Load sample requirement</button>
+        <button class="btn-ghost" id="exportBtn" onclick="exportCSV()" style="display:none;">Export CSV ⤓</button>
+      </div>
+      <div class="hint">Engine: pattern-based requirement parser. It splits text into discrete requirement statements, then derives positive, negative, boundary, and security test scenarios from keywords and numeric limits — no API call needed, runs fully in your browser.</div>
+    </div>
+  </div>
+
+  <div class="summary" id="summary">
+    <div class="summary-counts"><b id="reqCount">0</b> requirements parsed → <b id="caseCount">0</b> test cases drafted</div>
+    <div>
+      <div class="coverage-bar" id="coverageBar"></div>
+      <div class="legend" style="margin-top:8px;">
+        <span><i style="background:var(--teal);"></i>Positive</span>
+        <span><i style="background:var(--rust);"></i>Negative</span>
+        <span><i style="background:var(--violet);"></i>Boundary</span>
+        <span><i style="background:var(--amber-deep);"></i>Security</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="ledger"></div>
+
+  <div class="panel ai-panel" id="aiPanel" style="display:none;">
+    <div class="panel-tab">02 — Optional: Sharpen with Claude</div>
+    <div class="panel-body">
+      <label class="field-label">Add one extra edge-case test per requirement using the Claude API (bring your own key)</label>
+      <div class="ai-row">
+        <input type="password" id="apiKey" placeholder="sk-ant-...">
+        <button class="btn-ghost" onclick="enhanceWithAI()">Enhance</button>
+      </div>
+      <div class="ai-status" id="aiStatus"></div>
+      <div class="hint">Your key is used only in this browser tab to call Anthropic's API directly — it is never stored, logged, or sent anywhere else. This step is optional; the ledger above already stands on its own without it.</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>TRACELINE — built as a portfolio demo of BA workflow automation</footer>
+
+<script>
+let allCases = [];
+let reqCounter = 0;
+let tcCounter = 0;
+
+const SAMPLE = `The system shall allow a registered user to reset their password via a one-time OTP sent to their registered mobile number within 5 minutes.
+Maximum 3 OTP attempts are allowed within 10 minutes, after which the account must be temporarily locked.
+The new password must be between 8 to 16 characters and must include at least one number.
+The system shall log all failed login attempts and notify the user via email when a password reset is completed.`;
+
+function loadSample(){
+  document.getElementById('reqInput').value = SAMPLE;
+}
+
+function splitRequirements(text){
+  let cleaned = text
+    .replace(/^[ \t]*[\-\*•][ \t]+/gm, '')
+    .replace(/^[ \t]*\d+[\.\)][ \t]+/gm, '');
+  let lines = cleaned.split(/\n+/).map(s=>s.trim()).filter(s=>s.length>0);
+  let reqs = [];
+  lines.forEach(line=>{
+    let sentences = line.split(/(?<=[.!?])\s+(?=[A-Z])/).map(s=>s.trim()).filter(s=>s.length>12);
+    if(sentences.length===0 && line.length>12) sentences=[line];
+    reqs.push(...sentences);
+  });
+  return reqs;
+}
+
+function classify(req){
+  const r = req.toLowerCase();
+  let priority = 'Medium';
+  if(/\b(must|shall|mandatory|critical|required)\b/.test(r)) priority='High';
+  else if(/\b(should|may|optional|nice to have)\b/.test(r)) priority='Low';
+
+  const hasBoundary = /\b(maximum|minimum|limit|characters|length|amount|attempts|times|minutes|hours|days|percent|%)\b/.test(r);
+  const numMatch = req.match(/\d+/);
+  const boundaryNum = numMatch ? parseInt(numMatch[0],10) : null;
+
+  const hasSecurity = /\b(password|login|otp|authenticat|authoriz|credential|access|permission|account|lock)\b/.test(r);
+  const hasInputField = /\b(enter|input|field|select|upload|submit|provide|register|allow)\b/.test(r);
+
+  return {priority, hasBoundary, boundaryNum, hasSecurity, hasInputField};
+}
+
+function buildCases(reqId, reqText){
+  const c = classify(reqText);
+  const cases = [];
+
+  cases.push({
+    type:'Positive',
+    title:`Verify the system behaves correctly when: "${truncate(reqText,70)}"`,
+    priority:c.priority,
+    pre:'All required preconditions for this requirement are met (valid session, valid data available).',
+    steps:['Set up valid input data as described in the requirement.','Perform the action described in the requirement.','Observe the system response.'],
+    expected:`System fulfils the requirement exactly as specified: "${truncate(reqText,90)}"`
+  });
+
+  if(c.hasInputField || c.hasSecurity){
+    cases.push({
+      type:'Negative',
+      title:'Verify the system rejects or safely handles invalid / missing input',
+      priority:c.priority==='Low' ? 'Medium' : c.priority,
+      pre:'User has access to the relevant screen or flow but provides incomplete or invalid data.',
+      steps:['Attempt the same action with a required field left empty or an invalid value.','Submit the action.','Observe the system response and any error messaging.'],
+      expected:'System blocks the action, surfaces a clear error message, and does not change underlying data.'
+    });
+  }
+
+  if(c.hasBoundary && c.boundaryNum){
+    const n = c.boundaryNum;
+    cases.push({
+      type:'Boundary',
+      title:`Verify behaviour at the stated limit (${n})`,
+      priority:c.priority,
+      pre:`A value or count tied to the limit of ${n} can be controlled in the test environment.`,
+      steps:[`Test with value just below the limit (${Math.max(n-1,0)}).`,`Test with value exactly at the limit (${n}).`,`Test with value just above the limit (${n+1}).`],
+      expected:`System allows the action up to and including ${n}, and blocks or changes behaviour once the limit is exceeded.`
+    });
+  }
+
+  if(c.hasSecurity){
+    cases.push({
+      type:'Security',
+      title:'Verify unauthorized or repeated invalid attempts are handled safely',
+      priority:'High',
+      pre:'A valid account exists; tester does not have correct credentials or correct OTP.',
+      steps:['Attempt the action with incorrect credentials or an expired/incorrect OTP.','Repeat beyond the stated attempt limit, if one is specified.','Observe whether the system locks, throttles, or denies the action appropriately.'],
+      expected:'System denies access, applies any stated lockout/throttling, and does not leak information about why the attempt failed.'
+    });
+  }
+
+  return cases.slice(0,4).map(tc=>{
+    tcCounter++;
+    return Object.assign({id:'TC-'+String(tcCounter).padStart(3,'0'), reqId}, tc);
+  });
+}
+
+function truncate(s,n){ return s.length>n ? s.slice(0,n).trim()+'…' : s; }
+
+function runEngine(){
+  const text = document.getElementById('reqInput').value.trim();
+  if(!text){ return; }
+  reqCounter = 0; tcCounter = 0; allCases = [];
+  const reqs = splitRequirements(text);
+  const ledger = document.getElementById('ledger');
+  ledger.innerHTML = '';
+
+  reqs.forEach(req=>{
+    reqCounter++;
+    const reqId = 'REQ-'+String(reqCounter).padStart(2,'0');
+    const cases = buildCases(reqId, req);
+    allCases.push(...cases);
+
+    const block = document.createElement('div');
+    block.className = 'req-block';
+    block.innerHTML = `
+      <div class="req-header"><b>${reqId}</b><span class="req-text">${escapeHtml(req)}</span></div>
+      <div class="cards">${cases.map(renderCard).join('')}</div>
+    `;
+    ledger.appendChild(block);
+  });
+
+  renderSummary();
+  document.getElementById('exportBtn').style.display = allCases.length ? 'inline-block' : 'none';
+  document.getElementById('aiPanel').style.display = allCases.length ? 'block' : 'none';
+}
+
+function renderCard(tc){
+  const typeClass = 'type-'+tc.type.toLowerCase();
+  return `
+    <div class="card">
+      <div class="stamp ${typeClass}">${tc.id}<br>${tc.type.toUpperCase()}</div>
+      <div class="card-title">${escapeHtml(tc.title)}</div>
+      <div class="meta-row">
+        <span class="tag ${typeClass}">${tc.type}</span>
+        <span class="tag" style="color:var(--graphite);">Priority: ${tc.priority}</span>
+      </div>
+      <div class="card-section"><b>Precondition</b>${escapeHtml(tc.pre)}</div>
+      <div class="card-section"><b>Steps</b><ol>${tc.steps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')}</ol></div>
+      <div class="card-section"><b>Expected result</b>${escapeHtml(tc.expected)}</div>
+    </div>
+  `;
+}
+
+function renderSummary(){
+  const summary = document.getElementById('summary');
+  if(allCases.length===0){ summary.style.display='none'; return; }
+  summary.style.display = 'flex';
+  document.getElementById('reqCount').textContent = reqCounter;
+  document.getElementById('caseCount').textContent = allCases.length;
+
+  const counts = {Positive:0, Negative:0, Boundary:0, Security:0};
+  allCases.forEach(c=>counts[c.type]++);
+  const colors = {Positive:'var(--teal)', Negative:'var(--rust)', Boundary:'var(--violet)', Security:'var(--amber-deep)'};
+  const bar = document.getElementById('coverageBar');
+  bar.innerHTML = Object.keys(counts).map(k=>{
+    const pct = (counts[k]/allCases.length*100).toFixed(1);
+    return pct>0 ? `<div style="width:${pct}%; background:${colors[k]};"></div>` : '';
+  }).join('');
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function exportCSV(){
+  const headers = ['Test Case ID','Requirement ID','Type','Priority','Title','Precondition','Steps','Expected Result'];
+  const rows = allCases.map(tc=>[
+    tc.id, tc.reqId, tc.type, tc.priority, tc.title, tc.pre, tc.steps.join(' | '), tc.expected
+  ]);
+  const csv = [headers, ...rows].map(row =>
+    row.map(field => '"'+String(field).replace(/"/g,'""')+'"').join(',')
+  ).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'traceline-test-cases.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+async function enhanceWithAI(){
+  const key = document.getElementById('apiKey').value.trim();
+  const status = document.getElementById('aiStatus');
+  if(!key){ status.textContent = 'Enter an API key first.'; return; }
+  if(allCases.length===0){ status.textContent = 'Generate test cases first.'; return; }
+  status.textContent = 'Calling Claude…';
+
+  const reqList = [...new Set(allCases.map(c=>c.reqId))].map(id=>{
+    const txt = document.querySelectorAll('.req-text');
+    return id;
+  });
+
+  const prompt = `You are assisting a QA/BA. Given these requirement-derived test case titles, suggest ONE additional non-obvious edge-case test per requirement group that the rule-based list below may have missed. Be concise. Return plain text, one line per suggestion, format "REQ-ID: suggestion".\n\nExisting cases:\n${allCases.map(c=>`${c.reqId} / ${c.id} (${c.type}): ${c.title}`).join('\n')}`;
+
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:600,
+        messages:[{role:'user', content: prompt}]
+      })
+    });
+    if(!res.ok){
+      const errText = await res.text();
+      status.textContent = 'Request failed (' + res.status + '). This can happen if the browser blocks direct cross-origin calls to the API — that\'s expected outside a sandboxed environment; the rule-based ledger above still works fully on its own.';
+      return;
+    }
+    const data = await res.json();
+    const text = data.content.map(b=>b.text||'').join('\n');
+    status.innerHTML = '<b style="color:var(--ink); font-family:\'IBM Plex Sans\';">Suggested additions:</b><br>' + escapeHtml(text).replace(/\n/g,'<br>');
+  }catch(err){
+    status.textContent = 'Could not reach the API directly from this browser. The rule-based ledger above already stands on its own without this step.';
+  }
+}
+</script>
+
+</body>
+</html>
