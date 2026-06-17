@@ -58,6 +58,54 @@
     margin:0 auto;
     padding:36px 24px 80px;
   }
+  .rtm-wrap{overflow-x:auto;}
+  table.rtm-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+  }
+  table.rtm-table th{
+    background:var(--ink);
+    color:var(--paper);
+    text-align:left;
+    padding:10px 12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    white-space:nowrap;
+  }
+  table.rtm-table td{
+    padding:10px 12px;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+    color:var(--ink);
+  }
+  table.rtm-table tr:nth-child(even) td{background:rgba(17,25,43,0.025);}
+  table.rtm-table td.mono{font-family:'IBM Plex Mono', monospace; font-size:12px; white-space:nowrap;}
+
+  .intro{margin-bottom:32px; max-width:760px;}
+  .intro-lead{
+    font-family:'IBM Plex Serif', serif;
+    font-size:21px;
+    font-weight:600;
+    color:var(--ink);
+    margin:0 0 10px;
+    line-height:1.4;
+  }
+  .intro-body{
+    font-size:14px;
+    color:var(--graphite);
+    line-height:1.65;
+    margin:0 0 10px;
+  }
+  .intro-credit{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.5px;
+    color:var(--graphite);
+    text-transform:uppercase;
+  }
   .panel{
     background:#fff;
     border:1px solid var(--border);
@@ -123,23 +171,30 @@
   .btn-ghost:hover{border-color:var(--ink);}
   .hint{font-size:13px; color:var(--graphite); margin-top:14px; line-height:1.5;}
 
-  .summary{
-    display:none;
-    padding:22px 28px;
-    border:1px solid var(--border);
-    background:#fff;
-    margin-bottom:28px;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:18px;
-  }
-  .summary-counts{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--graphite);}
-  .summary-counts b{color:var(--ink); font-size:16px;}
-  .coverage-bar{display:flex; height:10px; width:260px; border-radius:2px; overflow:hidden; border:1px solid var(--border);}
-  .coverage-bar div{height:100%;}
-  .legend{display:flex; gap:14px; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--graphite); flex-wrap:wrap;}
-  .legend i{display:inline-block; width:9px; height:9px; margin-right:5px; border-radius:50%; vertical-align:middle;}
+  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:30px;}
+  @media (max-width:720px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat-card{border:1px solid var(--border); background:#fff; padding:18px 14px; text-align:center;}
+  .stat-number{font-family:'IBM Plex Serif', serif; font-size:30px; font-weight:600; color:var(--ink); display:block; line-height:1;}
+  .stat-label{font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--graphite); margin-top:6px; display:block;}
+
+  .dash-row{display:flex; gap:40px; flex-wrap:wrap; align-items:flex-start; margin-bottom:30px;}
+  .dash-col{flex:1; min-width:240px;}
+  .dash-col-title{font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--graphite); margin:0 0 14px;}
+
+  .donut-wrap{display:flex; align-items:center; gap:22px; flex-wrap:wrap;}
+  .donut-legend{display:flex; flex-direction:column; gap:8px; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--graphite);}
+  .donut-legend i{display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle;}
+
+  .pbar-row{display:flex; align-items:center; gap:10px; margin-bottom:11px;}
+  .pbar-label{width:62px; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--graphite); text-transform:uppercase;}
+  .pbar-track{flex:1; background:var(--paper-line); height:14px; border-radius:2px; overflow:hidden;}
+  .pbar-fill{height:100%;}
+  .pbar-count{width:22px; text-align:right; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink);}
+
+  .reqcov-row{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
+  .reqcov-label{width:64px; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--graphite); flex-shrink:0;}
+  .reqcov-bar{flex:1; display:flex; height:14px; border-radius:2px; overflow:hidden; border:1px solid var(--border);}
+  .reqcov-count{width:64px; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--graphite); text-align:right; flex-shrink:0;}
 
   .req-block{margin-bottom:30px;}
   .req-header{
@@ -261,6 +316,12 @@
 
 <main>
 
+  <div class="intro">
+    <p class="intro-lead">Turns a requirement into a structured test suite — automatically.</p>
+    <p class="intro-body">Paste a requirement (from a BRD, FRD, user story, or acceptance criteria) below. Traceline parses it into individual statements, classifies each one against a set of business rules, and drafts positive, negative, boundary, and security test cases — complete with a decision-flow diagram, priority, preconditions, steps, and an exportable CSV.</p>
+    <p class="intro-credit">Built by Gaurav Srivastava — a working demo of automating the BA → QA handoff.</p>
+  </div>
+
   <div class="panel">
     <div class="panel-tab">01 — Intake</div>
     <div class="panel-body">
@@ -275,15 +336,52 @@
     </div>
   </div>
 
-  <div class="summary" id="summary">
-    <div class="summary-counts"><b id="reqCount">0</b> requirements parsed → <b id="caseCount">0</b> test cases drafted</div>
-    <div>
-      <div class="coverage-bar" id="coverageBar"></div>
-      <div class="legend" style="margin-top:8px;">
-        <span><i style="background:var(--teal);"></i>Positive</span>
-        <span><i style="background:var(--rust);"></i>Negative</span>
-        <span><i style="background:var(--violet);"></i>Boundary</span>
-        <span><i style="background:var(--amber-deep);"></i>Security</span>
+  <div class="panel" id="dashboardPanel" style="display:none;">
+    <div class="panel-tab">02 — Dashboard</div>
+    <div class="panel-body">
+
+      <div class="stat-grid" id="statGrid"></div>
+
+      <div class="dash-row">
+        <div class="dash-col">
+          <p class="dash-col-title">Test case mix</p>
+          <div class="donut-wrap" id="donutWrap"></div>
+        </div>
+        <div class="dash-col">
+          <p class="dash-col-title">Priority distribution</p>
+          <div id="priorityBars"></div>
+        </div>
+      </div>
+
+      <div class="dash-row" style="margin-bottom:0;">
+        <div class="dash-col" style="flex:1 1 100%;">
+          <p class="dash-col-title">Coverage by requirement</p>
+          <div id="reqCoverage"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="panel" id="rtmPanel" style="display:none;">
+    <div class="panel-tab">03 — Traceability Matrix</div>
+    <div class="panel-body">
+      <div class="rtm-wrap">
+        <table class="rtm-table">
+          <thead>
+            <tr>
+              <th>Req ID</th>
+              <th>Requirement</th>
+              <th>Linked test cases</th>
+              <th>Coverage</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody id="rtmBody"></tbody>
+        </table>
+      </div>
+      <div class="row">
+        <button class="btn-ghost" onclick="exportRTM()">Export RTM CSV</button>
       </div>
     </div>
   </div>
@@ -291,7 +389,7 @@
   <div id="ledger"></div>
 
   <div class="panel ai-panel" id="aiPanel" style="display:none;">
-    <div class="panel-tab">02 — Optional: Sharpen with Claude</div>
+    <div class="panel-tab">04 — Optional: Sharpen with Claude</div>
     <div class="panel-body">
       <label class="field-label">Add one extra edge-case test per requirement using the Claude API (bring your own key)</label>
       <div class="ai-row">
@@ -311,6 +409,7 @@
 let allCases = [];
 let reqCounter = 0;
 let tcCounter = 0;
+let reqMap = {};
 
 const SAMPLE = `The system shall allow a registered user to reset their password via a one-time OTP sent to their registered mobile number within 5 minutes.
 Maximum 3 OTP attempts are allowed within 10 minutes, after which the account must be temporarily locked.
@@ -409,7 +508,7 @@ function truncate(s,n){ return s.length>n ? s.slice(0,n).trim()+'…' : s; }
 function runEngine(){
   const text = document.getElementById('reqInput').value.trim();
   if(!text){ return; }
-  reqCounter = 0; tcCounter = 0; allCases = [];
+  reqCounter = 0; tcCounter = 0; allCases = []; reqMap = {};
   const reqs = splitRequirements(text);
   const ledger = document.getElementById('ledger');
   ledger.innerHTML = '';
@@ -417,6 +516,7 @@ function runEngine(){
   reqs.forEach(req=>{
     reqCounter++;
     const reqId = 'REQ-'+String(reqCounter).padStart(2,'0');
+    reqMap[reqId] = req;
     const cases = buildCases(reqId, req);
     allCases.push(...cases);
 
@@ -433,9 +533,58 @@ function runEngine(){
     ledger.appendChild(block);
   });
 
-  renderSummary();
+  renderDashboard();
+  renderRTM();
   document.getElementById('exportBtn').style.display = allCases.length ? 'inline-block' : 'none';
+  document.getElementById('rtmPanel').style.display = allCases.length ? 'block' : 'none';
   document.getElementById('aiPanel').style.display = allCases.length ? 'block' : 'none';
+}
+
+function buildRTMRows(){
+  const rows = [];
+  for(let n=1; n<=reqCounter; n++){
+    const reqId = 'REQ-'+String(n).padStart(2,'0');
+    const reqCases = allCases.filter(c=>c.reqId===reqId);
+    if(reqCases.length===0) continue;
+    const reqText = reqMap[reqId] || '';
+    rows.push({
+      reqId,
+      reqText,
+      tcIds: reqCases.map(c=>c.id).join(', '),
+      typesCovered: reqCases.length,
+      priority: classify(reqText).priority
+    });
+  }
+  return rows;
+}
+
+function renderRTM(){
+  const rows = buildRTMRows();
+  const tbody = document.getElementById('rtmBody');
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td class="mono">${r.reqId}</td>
+      <td>${escapeHtml(truncate(r.reqText,90))}</td>
+      <td class="mono">${r.tcIds}</td>
+      <td>${r.typesCovered} test type${r.typesCovered>1?'s':''}</td>
+      <td>${r.priority}</td>
+    </tr>
+  `).join('');
+}
+
+function exportRTM(){
+  const rows = buildRTMRows();
+  const headers = ['Requirement ID','Requirement','Linked Test Cases','Test Types Covered','Priority'];
+  const csvRows = rows.map(r => [r.reqId, r.reqText, r.tcIds, r.typesCovered, r.priority]);
+  const csv = [headers, ...csvRows].map(row =>
+    row.map(field => '"'+String(field).replace(/"/g,'""')+'"').join(',')
+  ).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'traceline-rtm.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 function flowDefs(){
@@ -541,21 +690,85 @@ function renderCard(tc){
   `;
 }
 
-function renderSummary(){
-  const summary = document.getElementById('summary');
-  if(allCases.length===0){ summary.style.display='none'; return; }
-  summary.style.display = 'flex';
-  document.getElementById('reqCount').textContent = reqCounter;
-  document.getElementById('caseCount').textContent = allCases.length;
+function renderDashboard(){
+  const panel = document.getElementById('dashboardPanel');
+  if(allCases.length===0){ panel.style.display='none'; return; }
+  panel.style.display = 'block';
 
-  const counts = {Positive:0, Negative:0, Boundary:0, Security:0};
-  allCases.forEach(c=>counts[c.type]++);
+  const typeCounts = {Positive:0, Negative:0, Boundary:0, Security:0};
+  const priorityCounts = {High:0, Medium:0, Low:0};
+  allCases.forEach(c=>{ typeCounts[c.type]++; priorityCounts[c.priority]++; });
+
+  const avgPerReq = reqCounter>0 ? (allCases.length/reqCounter).toFixed(1) : 0;
+
+  document.getElementById('statGrid').innerHTML = `
+    <div class="stat-card"><span class="stat-number">${reqCounter}</span><span class="stat-label">Requirements parsed</span></div>
+    <div class="stat-card"><span class="stat-number">${allCases.length}</span><span class="stat-label">Test cases drafted</span></div>
+    <div class="stat-card"><span class="stat-number">${avgPerReq}</span><span class="stat-label">Avg cases / requirement</span></div>
+    <div class="stat-card"><span class="stat-number" style="color:var(--rust);">${priorityCounts.High}</span><span class="stat-label">High priority items</span></div>
+  `;
+
+  document.getElementById('donutWrap').innerHTML = buildDonut(typeCounts, allCases.length);
+  document.getElementById('priorityBars').innerHTML = buildPriorityBars(priorityCounts, allCases.length);
+  document.getElementById('reqCoverage').innerHTML = buildReqCoverage();
+}
+
+function buildDonut(counts, total){
+  const order = ['Positive','Negative','Boundary','Security'];
   const colors = {Positive:'var(--teal)', Negative:'var(--rust)', Boundary:'var(--violet)', Security:'var(--amber-deep)'};
-  const bar = document.getElementById('coverageBar');
-  bar.innerHTML = Object.keys(counts).map(k=>{
-    const pct = (counts[k]/allCases.length*100).toFixed(1);
-    return pct>0 ? `<div style="width:${pct}%; background:${colors[k]};"></div>` : '';
+  const r = 62, cx = 80, cy = 80, strokeW = 24;
+  const circumference = 2*Math.PI*r;
+  let offsetAcc = 0;
+  let arcs = '';
+  let legend = '';
+  order.forEach(type=>{
+    const count = counts[type]||0;
+    if(count===0) return;
+    const frac = count/total;
+    const segLen = frac*circumference;
+    const dashArray = `${segLen} ${circumference-segLen}`;
+    const dashOffset = circumference - offsetAcc;
+    arcs += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colors[type]}" stroke-width="${strokeW}" stroke-dasharray="${dashArray}" stroke-dashoffset="${dashOffset}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    offsetAcc += segLen;
+    legend += `<span><i style="background:${colors[type]};"></i>${type} (${count})</span>`;
+  });
+  const svg = `<svg width="160" height="160" viewBox="0 0 160 160">
+    ${arcs}
+    <text x="${cx}" y="${cy-2}" text-anchor="middle" style="font-family:'IBM Plex Serif'; font-size:26px; font-weight:600; fill:var(--ink);">${total}</text>
+    <text x="${cx}" y="${cy+15}" text-anchor="middle" style="font-family:'IBM Plex Mono'; font-size:8.5px; fill:var(--graphite); letter-spacing:0.5px;">TEST CASES</text>
+  </svg>`;
+  return `${svg}<div class="donut-legend">${legend}</div>`;
+}
+
+function buildPriorityBars(counts, total){
+  const order = ['High','Medium','Low'];
+  const colors = {High:'var(--rust)', Medium:'var(--amber-deep)', Low:'var(--teal)'};
+  return order.map(p=>{
+    const count = counts[p]||0;
+    const pct = total>0 ? (count/total*100) : 0;
+    return `<div class="pbar-row">
+      <span class="pbar-label">${p}</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:${pct}%; background:${colors[p]};"></div></div>
+      <span class="pbar-count">${count}</span>
+    </div>`;
   }).join('');
+}
+
+function buildReqCoverage(){
+  const colors = {Positive:'var(--teal)', Negative:'var(--rust)', Boundary:'var(--violet)', Security:'var(--amber-deep)'};
+  let rows = '';
+  for(let n=1; n<=reqCounter; n++){
+    const reqId = 'REQ-'+String(n).padStart(2,'0');
+    const reqCases = allCases.filter(c=>c.reqId===reqId);
+    if(reqCases.length===0) continue;
+    const segments = reqCases.map(c=>`<div style="width:${100/reqCases.length}%; background:${colors[c.type]};"></div>`).join('');
+    rows += `<div class="reqcov-row">
+      <span class="reqcov-label">${reqId}</span>
+      <div class="reqcov-bar">${segments}</div>
+      <span class="reqcov-count">${reqCases.length} case${reqCases.length>1?'s':''}</span>
+    </div>`;
+  }
+  return rows;
 }
 
 function escapeHtml(s){
